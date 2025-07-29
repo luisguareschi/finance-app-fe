@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import useLogin from "@/queries/auth/useLogin";
 import {
   Card,
@@ -14,20 +14,36 @@ import {
 import { Label } from "@/components/ui/label";
 import Spinner from "@/components/common/spinner";
 import Link from "next/link";
+import useSignUp from "@/queries/auth/useSignUp";
 
 const LoginPage = () => {
   const router = useRouter();
+  const isSignUp = useSearchParams().get("signup") === "true";
   const { mutate: login, isPending: loadingLogin } = useLogin({
     onSuccess: () => {
       router.replace("/home");
     },
   });
+  const { mutate: signUp, isPending: loadingSignUp } = useSignUp({
+    onSuccess: () => {
+      router.replace("/login");
+    },
+  });
   const [loginForm, setLoginForm] = useState({
+    username: "",
     email: "",
     password: "",
   });
 
   const handleSubmit = () => {
+    if (isSignUp) {
+      signUp({
+        username: loginForm.username,
+        email: loginForm.email,
+        password: loginForm.password,
+      });
+      return;
+    }
     login({
       email: loginForm.email,
       password: loginForm.password,
@@ -46,12 +62,16 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen justify-center items-center bg-slate-50">
-      <Card className="min-w-[450px]">
+    <div className="flex flex-col h-screen justify-center items-center bg-black">
+      <Card className="sm:w-[450px] w-full border-none bg-transparent">
         <CardHeader className="mb-5">
-          <CardTitle className="text-2xl text-center">BaseApp</CardTitle>
-          <CardDescription className="text-center">
-            Enter your email and password to login
+          <CardTitle className="text-2xl text-center text-white">
+            Finance Manager
+          </CardTitle>
+          <CardDescription className="text-center text-neutral-400">
+            {isSignUp
+              ? "Create an account to get started"
+              : "Enter your email and password to login"}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -62,6 +82,19 @@ const LoginPage = () => {
               handleSubmit();
             }}
           >
+            {isSignUp && (
+              <div className="grid gap-2">
+                <Label htmlFor="username">Username</Label>
+                <Input
+                  id="username"
+                  type="text"
+                  placeholder="username"
+                  name="username"
+                  onChange={handleChange}
+                  value={loginForm.username}
+                />
+              </div>
+            )}
             <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
               <Input
@@ -76,41 +109,49 @@ const LoginPage = () => {
             <div className="grid gap-2">
               <div className="flex items-center">
                 <Label htmlFor="password">Password</Label>
-                <a
-                  href=""
-                  className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                  onClick={handleForgotPassword}
-                >
-                  Forgot your password?
-                </a>
+                {!isSignUp && (
+                  <a
+                    href=""
+                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline text-neutral-400"
+                    onClick={handleForgotPassword}
+                  >
+                    Forgot your password?
+                  </a>
+                )}
               </div>
               <Input
                 id="password"
                 type="password"
                 name="password"
+                placeholder="********"
                 onChange={handleChange}
                 value={loginForm.password}
               />
             </div>
-            <Button className="w-full" size="default" type="submit">
-              Login
-              {loadingLogin && <Spinner />}
+            <Button
+              className="w-full"
+              size="default"
+              type="submit"
+              disabled={loadingLogin || loadingSignUp}
+            >
+              {isSignUp ? "Sign Up" : "Login"}
+              {(loadingLogin || loadingSignUp) && <Spinner />}
             </Button>
           </form>
-          <div className="flex justify-center items-center mt-4">
-            <Button
-              variant="link"
-              asChild
-              size="sm"
-              className="text-xs font-medium text-slate-500"
-            >
-              <Link href="https://luisguareschi.com">
-                Made by Luis Guareschi
-              </Link>
-            </Button>
-          </div>
         </CardContent>
       </Card>
+      <div className="mt-4">
+        <p className="text-neutral-400">
+          {isSignUp ? "Already have an account?" : "Dont have an account?"}
+          &nbsp;
+          <Link
+            href={`login/?signup=${!isSignUp}`}
+            className="text-white underline font-semibold"
+          >
+            {isSignUp ? "Login" : "Sign Up"}
+          </Link>
+        </p>
+      </div>
     </div>
   );
 };
