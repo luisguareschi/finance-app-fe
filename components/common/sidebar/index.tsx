@@ -18,7 +18,7 @@ export const Sidebar = () => {
   const pathname = usePathname();
 
   const isActive = (href: string) => {
-    return pathname === href;
+    return pathname.includes(href);
   };
 
   // Disable scroll on body when sidebar is open
