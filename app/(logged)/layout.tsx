@@ -15,7 +15,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex h-dvh w-full">
       <Sidebar />
-      <NavbarLayout title="Welcome!">{children}</NavbarLayout>
+      <NavbarLayout>{children}</NavbarLayout>
     </div>
   );
 }

@@ -4,16 +4,15 @@ import useStore from "@/lib/useStore";
 import { Menu } from "lucide-react";
 
 interface NavbarProps {
-  title: string;
   children: React.ReactNode;
 }
 
-export const NavbarLayout = ({ title, children }: NavbarProps) => {
-  const { showSidebar, setShowSidebar } = useStore();
+export const NavbarLayout = ({ children }: NavbarProps) => {
+  const { showSidebar, setShowSidebar, navbarTitle } = useStore();
   return (
     <div className="flex flex-col w-full md:ml-64 px-4">
       <header className="flex justify-between items-center mb-4 pt-4 sticky top-0 bg-black">
-        <h1 className="text-2xl font-base text-white">{title}</h1>
+        <h1 className="text-2xl font-base text-white">{navbarTitle}</h1>
         <AccountButton className="hidden md:flex min-w-[200px]" />
         <Button
           onClick={() => setShowSidebar(!showSidebar)}

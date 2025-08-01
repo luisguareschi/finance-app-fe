@@ -48,7 +48,81 @@ export interface PatchedUser {
   email?: string;
 }
 
+export interface PatchedBillGroupMember {
+  readonly id?: number;
+  /** @maxLength 255 */
+  name?: string;
+  readonly created_at?: string;
+  readonly updated_at?: string;
+  bill_group?: number;
+}
+
+export interface PatchedBillGroup {
+  readonly id?: number;
+  /** @maxLength 255 */
+  name?: string;
+  readonly number_of_members?: string;
+  readonly created_at?: string;
+  readonly updated_at?: string;
+  currency?: CurrencyEnum;
+}
+
+export interface PatchedBill {
+  readonly id?: number;
+  /** @maxLength 255 */
+  description?: string;
+  /** @pattern ^-?\d{0,8}(?:\.\d{0,2})?$ */
+  amount?: string;
+  /** If true, the bill is payed for everyone in the bill group (including the payer) */
+  payed_for_everyone?: boolean;
+  readonly created_at?: string;
+  readonly updated_at?: string;
+  payed_by?: number;
+  payed_for?: number[];
+}
+
 export interface EmailTokenObtain {
   email: string;
   password: string;
+}
+
+/**
+ * * `USD` - Usd
+ * `EUR` - Eur
+ */
+export enum CurrencyEnum {
+  USD = "USD",
+  EUR = "EUR",
+}
+export interface BillGroupMember {
+  readonly id: number;
+  /** @maxLength 255 */
+  name: string;
+  readonly created_at: string;
+  readonly updated_at: string;
+  bill_group: number;
+}
+
+export interface BillGroup {
+  readonly id: number;
+  /** @maxLength 255 */
+  name: string;
+  readonly number_of_members: string;
+  readonly created_at: string;
+  readonly updated_at: string;
+  currency?: CurrencyEnum;
+}
+
+export interface Bill {
+  readonly id: number;
+  /** @maxLength 255 */
+  description: string;
+  /** @pattern ^-?\d{0,8}(?:\.\d{0,2})?$ */
+  amount: string;
+  /** If true, the bill is payed for everyone in the bill group (including the payer) */
+  payed_for_everyone?: boolean;
+  readonly created_at: string;
+  readonly updated_at: string;
+  payed_by: number;
+  payed_for?: number[];
 }

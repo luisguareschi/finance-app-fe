@@ -55,6 +55,7 @@ export const Sidebar = () => {
               <Button
                 className="w-full rounded-full justify-start text-base py-6"
                 variant={isActive(item.href) ? "default" : "ghost"}
+                onClick={() => setShowSidebar(false)}
               >
                 {item.icon}
                 {item.label}
