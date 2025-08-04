@@ -1,0 +1,99 @@
+import { BillGroupDetail } from "@/api/baseAppBackendAPI.schemas";
+import { Button } from "@/components/ui/button";
+import { Card } from "../ui/card";
+import { XIcon } from "lucide-react";
+import { getInitials } from "@/lib/getInitials";
+import { cn } from "@/lib/utils";
+import { generateColors } from "@/lib/getColorClassNames";
+import { AddBillForm } from "./add-bill-form";
+import { useSplitBillsBillsDestroy } from "@/api/split-bills/split-bills";
+import { useQueryClient } from "@tanstack/react-query";
+import { QUERYKEYS } from "@/queries/queryKeys";
+import toast from "react-hot-toast";
+
+interface BillItemProps {
+  billGroup: BillGroupDetail;
+  bill: BillGroupDetail["bills"][number];
+}
+
+const BillItem = ({ billGroup, bill }: BillItemProps) => {
+  const queryClient = useQueryClient();
+  const { mutate: deleteBill } = useSplitBillsBillsDestroy({
+    mutation: {
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: [QUERYKEYS.billGroupDetail],
+        });
+        toast.success("Bill deleted successfully");
+      },
+    },
+  });
+  const { bgColor, borderColor, textColor } = generateColors(
+    String(bill?.payed_by.id) || "",
+  );
+
+  const handleDelete = () => {
+    deleteBill({
+      id: String(bill.id),
+    });
+  };
+
+  return (
+    <Card className="flex justify-start items-center gap-4 w-full md:max-w-xl p-2">
+      <div
+        className={cn(
+          "rounded-full w-10 h-10 flex items-center justify-center",
+          bgColor,
+          borderColor,
+          textColor,
+        )}
+      >
+        {getInitials(bill?.payed_by.name || "")}
+      </div>
+      <div>
+        <p className="text-neutral-400">Payed by: {bill.payed_by.name}</p>
+        <p className="line-clamp-1">
+          {bill?.description}&nbsp;•&nbsp;
+          <span className="text-neutral-400">
+            {bill?.payed_for.length > 0
+              ? bill?.payed_for.map((member) => member.name).join(", ")
+              : "Everyone"}
+          </span>
+        </p>
+      </div>
+      <div className="flex ml-auto items-center gap-2">
+        <p className="text-white">
+          {bill?.amount} {billGroup?.currency}
+        </p>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="p-0 size-8 text-red-500 active:bg-red-800/50 hover:bg-red-800/50"
+          onClick={handleDelete}
+        >
+          <XIcon className="min-w-5 min-h-5" />
+        </Button>
+      </div>
+    </Card>
+  );
+};
+
+interface BillsFormProps {
+  billGroup: BillGroupDetail;
+}
+
+export const BillsForm = ({ billGroup }: BillsFormProps) => {
+  return (
+    <div className="flex flex-col gap-6 md:gap-4">
+      <div className="flex justify-between md:justify-start items-center gap-4">
+        <h2 className="text-xl font-base text-white">Bills</h2>
+        <AddBillForm billGroup={billGroup} />
+      </div>
+      <div className="flex gap-2 items-start flex-col">
+        {billGroup.bills.map((bill) => (
+          <BillItem key={bill.id} billGroup={billGroup} bill={bill} />
+        ))}
+      </div>
+    </div>
+  );
+};

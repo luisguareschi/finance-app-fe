@@ -37,7 +37,7 @@ function SelectTrigger({
       data-slot="select-trigger"
       data-size={size}
       className={cn(
-        "bg-neutral-800 border border-neutral-700 text-white rounded-md flex items-center justify-between gap-2 px-3 py-2 w-full",
+        "bg-neutral-800 border border-neutral-700 text-white rounded-md flex items-center justify-between gap-2 px-3 py-2 w-full hover:bg-neutral-700 transition-colors",
         className,
       )}
       {...props}

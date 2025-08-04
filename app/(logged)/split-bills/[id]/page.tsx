@@ -1,6 +1,7 @@
 "use client";
 import { useSplitBillsBillGroupsRetrieve } from "@/api/split-bills/split-bills";
 import { PeopleToSplitForm } from "@/components/split-bills/people-to-split-form";
+import { BillsForm } from "@/components/split-bills/bills-form";
 import useStore from "@/lib/useStore";
 import { QUERYKEYS } from "@/queries/queryKeys";
 import { useParams } from "next/navigation";
@@ -32,7 +33,7 @@ const SplitBillsDetailPage = () => {
   return (
     <div className="flex flex-col gap-8">
       <PeopleToSplitForm billGroup={billGroup} />
-      <h2 className="text-xl font-base text-white">Transactions</h2>
+      <BillsForm billGroup={billGroup} />
     </div>
   );
 };

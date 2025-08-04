@@ -77,6 +77,8 @@ export interface PatchedBill {
   payed_for_everyone?: boolean;
   readonly created_at?: string;
   readonly updated_at?: string;
+  /** @nullable */
+  bill_group?: number | null;
   payed_by?: number;
   payed_for?: number[];
 }
@@ -112,6 +114,7 @@ export interface BillGroupDetail {
   readonly updated_at: string;
   currency?: CurrencyEnum;
   bill_group_members: BillGroupMember[];
+  bills: BillDetail[];
 }
 
 export interface BillGroup {
@@ -124,6 +127,22 @@ export interface BillGroup {
   currency?: CurrencyEnum;
 }
 
+export interface BillDetail {
+  readonly id: number;
+  /** @nullable */
+  bill_group: number | null;
+  payed_by: BillGroupMember;
+  /** @maxLength 255 */
+  description: string;
+  /** @pattern ^-?\d{0,8}(?:\.\d{0,2})?$ */
+  amount: string;
+  payed_for: BillGroupMember[];
+  /** If true, the bill is payed for everyone in the bill group (including the payer) */
+  payed_for_everyone?: boolean;
+  readonly created_at: string;
+  readonly updated_at: string;
+}
+
 export interface Bill {
   readonly id: number;
   /** @maxLength 255 */
@@ -134,6 +153,8 @@ export interface Bill {
   payed_for_everyone?: boolean;
   readonly created_at: string;
   readonly updated_at: string;
+  /** @nullable */
+  bill_group: number | null;
   payed_by: number;
   payed_for?: number[];
 }

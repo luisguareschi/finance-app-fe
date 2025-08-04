@@ -31,7 +31,7 @@ const MemberItem = ({ member }: MemberItemProps) => {
   };
 
   return (
-    <Card className="flex justify-between items-center gap-2 w-full md:min-w-20 md:max-w-fit p-2">
+    <Card className="flex justify-between items-center gap-2 w-full p-2">
       <p className="outline-none w-20">{member.name}</p>
       <div className="flex">
         <EditPersonForm person={member} />
@@ -61,7 +61,7 @@ export const PeopleToSplitForm = ({ billGroup }: PeopleToSplitFormProps) => {
         </h2>
         <AddPersonForm billGroup={billGroup} />
       </div>
-      <div className="flex gap-2 items-center flex-wrap">
+      <div className="flex gap-2 items-center flex-wrap md:grid md:grid-cols-3 md:max-w-xl">
         {billGroup.bill_group_members.map((member) => (
           <MemberItem key={member.id} member={member} />
         ))}
