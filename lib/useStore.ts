@@ -2,23 +2,29 @@ import { create } from "zustand";
 
 interface IStoreState {
   showSidebar: boolean;
-  navbarTitle: string;
+  navbarConfig: {
+    title: string;
+    backButton?: boolean;
+  };
 }
 
 interface IStoreActions {
   setShowSidebar: (show: boolean) => void;
-  setNavbarTitle: (title: string) => void;
+  setNavbarConfig: (config: IStoreState["navbarConfig"]) => void;
 }
 
 const initialState: IStoreState = {
   showSidebar: false,
-  navbarTitle: "Welcome!",
+  navbarConfig: {
+    title: "Welcome!",
+    backButton: false,
+  },
 };
 
 const useStore = create<IStoreState & IStoreActions>()((set) => ({
   ...initialState,
   setShowSidebar: (show) => set({ showSidebar: show }),
-  setNavbarTitle: (title) => set({ navbarTitle: title }),
+  setNavbarConfig: (config) => set({ navbarConfig: config }),
 }));
 
 export default useStore;

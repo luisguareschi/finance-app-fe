@@ -103,6 +103,17 @@ export interface BillGroupMember {
   bill_group: number;
 }
 
+export interface BillGroupDetail {
+  readonly id: number;
+  /** @maxLength 255 */
+  name: string;
+  readonly number_of_members: string;
+  readonly created_at: string;
+  readonly updated_at: string;
+  currency?: CurrencyEnum;
+  bill_group_members: BillGroupMember[];
+}
+
 export interface BillGroup {
   readonly id: number;
   /** @maxLength 255 */

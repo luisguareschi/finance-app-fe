@@ -1,5 +1,6 @@
 "use client";
 import { useSplitBillsBillGroupsRetrieve } from "@/api/split-bills/split-bills";
+import { PeopleToSplitForm } from "@/components/split-bills/people-to-split-form";
 import useStore from "@/lib/useStore";
 import { QUERYKEYS } from "@/queries/queryKeys";
 import { useParams } from "next/navigation";
@@ -7,22 +8,31 @@ import { useEffect } from "react";
 
 const SplitBillsDetailPage = () => {
   const { id } = useParams();
-  const { setNavbarTitle } = useStore();
-  const { data: billGroup } = useSplitBillsBillGroupsRetrieve(id as string, {
-    query: {
-      queryKey: [QUERYKEYS.billGroupDetail, id],
-    },
-  });
+  const { setNavbarConfig } = useStore();
+  const { data: billGroup, isLoading: isLoadingBillGroup } =
+    useSplitBillsBillGroupsRetrieve(id as string, {
+      query: {
+        queryKey: [QUERYKEYS.billGroupDetail, id],
+      },
+    });
 
   useEffect(() => {
     if (billGroup) {
-      setNavbarTitle(billGroup.name);
+      setNavbarConfig({
+        title: billGroup.name,
+        backButton: true,
+      });
     }
   }, [billGroup?.name]);
 
+  if (isLoadingBillGroup || !billGroup) {
+    return <div className="flex text-white">Loading...</div>;
+  }
+
   return (
-    <div className="text-white">
-      <h1>Split Bills id {id}</h1>
+    <div className="flex flex-col gap-8">
+      <PeopleToSplitForm billGroup={billGroup} />
+      <h2 className="text-xl font-base text-white">Transactions</h2>
     </div>
   );
 };

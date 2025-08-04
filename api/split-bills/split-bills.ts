@@ -24,6 +24,7 @@ import type {
 import type {
   Bill,
   BillGroup,
+  BillGroupDetail,
   BillGroupMember,
   PatchedBill,
   PatchedBillGroup,
@@ -832,7 +833,7 @@ export const splitBillsBillGroupsRetrieve = (
   id: string,
   signal?: AbortSignal,
 ) => {
-  return customAxios<BillGroup>({
+  return customAxios<BillGroupDetail>({
     url: `/api/split-bills/bill-groups/${id}/`,
     method: "GET",
     signal,

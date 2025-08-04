@@ -7,7 +7,7 @@ import { BillGroupItem } from "@/components/split-bills/bill-group-item";
 import { CreateGroupForm } from "@/components/split-bills/create-group-form";
 
 const SplitBillsPage = () => {
-  const { setNavbarTitle } = useStore();
+  const { setNavbarConfig } = useStore();
   const { data: billGroups, isLoading: isLoadingBillGroups } =
     useSplitBillsBillGroupsList({
       query: {
@@ -16,7 +16,9 @@ const SplitBillsPage = () => {
     });
 
   useEffect(() => {
-    setNavbarTitle("Split Bills");
+    setNavbarConfig({
+      title: "Split Bills",
+    });
   }, []);
 
   return (
