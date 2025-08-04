@@ -19,16 +19,16 @@ import { useQueryClient } from "@tanstack/react-query";
 import { QUERYKEYS } from "@/queries/queryKeys";
 
 interface Form {
-  payed_by: string;
-  payed_for: string[];
+  payedBy: string;
+  payedFor: string[];
   amount?: number;
   description: string;
   payedForEveryone: boolean;
 }
 
 const initialForm: Form = {
-  payed_by: "",
-  payed_for: [],
+  payedBy: "",
+  payedFor: [],
   amount: undefined,
   description: "",
   payedForEveryone: false,
@@ -60,8 +60,8 @@ export const AddBillForm = ({ billGroup }: AddBillFormProps) => {
   }));
 
   const isFormValid =
-    form.payed_by &&
-    (form.payed_for.length > 0 || form.payedForEveryone) &&
+    form.payedBy &&
+    (form.payedFor.length > 0 || form.payedForEveryone) &&
     (!form.amount || form.amount > 0) &&
     form.description;
 
@@ -71,8 +71,10 @@ export const AddBillForm = ({ billGroup }: AddBillFormProps) => {
         bill_group: billGroup.id,
         amount: form.amount?.toString() ?? "",
         description: form.description,
-        payed_by: Number(form.payed_by),
-        payed_for: form.payed_for.map((id) => Number(id)),
+        payed_by: Number(form.payedBy),
+        payed_for: form.payedForEveryone
+          ? undefined
+          : form.payedFor.map((id) => Number(id)),
         payed_for_everyone: form.payedForEveryone,
       },
     });
@@ -105,8 +107,8 @@ export const AddBillForm = ({ billGroup }: AddBillFormProps) => {
         <div className="flex flex-col gap-2">
           <Label>Payed by</Label>
           <Select
-            value={form.payed_by}
-            onValueChange={(value) => setForm({ ...form, payed_by: value })}
+            value={form.payedBy}
+            onValueChange={(value) => setForm({ ...form, payedBy: value })}
           >
             <SelectTrigger>
               <SelectValue placeholder="Select a person" />
@@ -135,8 +137,8 @@ export const AddBillForm = ({ billGroup }: AddBillFormProps) => {
           </div>
           <MultiSelect
             options={membersList}
-            onValueChange={(value) => setForm({ ...form, payed_for: value })}
-            defaultValue={form.payed_for}
+            onValueChange={(value) => setForm({ ...form, payedFor: value })}
+            defaultValue={form.payedFor}
             placeholder="Select people"
             variant="inverted"
             animation={0}
