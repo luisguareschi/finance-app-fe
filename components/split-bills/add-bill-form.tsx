@@ -91,7 +91,12 @@ export const AddBillForm = ({ billGroup }: AddBillFormProps) => {
       title="Add bill"
       description="Enter the details of the bill you want to add"
       trigger={
-        <Button variant="default" size="sm" onClick={() => setIsOpen(true)}>
+        <Button
+          variant="default"
+          size="sm"
+          onClick={() => setIsOpen(true)}
+          disabled={billGroup.bill_group_members.length === 0}
+        >
           Add bill
         </Button>
       }

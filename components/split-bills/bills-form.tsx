@@ -93,6 +93,11 @@ export const BillsForm = ({ billGroup }: BillsFormProps) => {
         {billGroup.bills.map((bill) => (
           <BillItem key={bill.id} billGroup={billGroup} bill={bill} />
         ))}
+        {billGroup.bills.length === 0 && (
+          <p className="text-neutral-400">
+            No bills added yet. Add a person to start splitting bills.
+          </p>
+        )}
       </div>
     </div>
   );

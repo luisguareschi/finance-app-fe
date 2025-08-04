@@ -20,6 +20,9 @@ export const AddPersonForm = ({ billGroup }: AddPersonFormProps) => {
     mutation: {
       onSuccess: () => {
         queryClient.invalidateQueries({
+          queryKey: [QUERYKEYS.billGroupsList],
+        });
+        queryClient.invalidateQueries({
           queryKey: [QUERYKEYS.billGroupDetail],
         });
         toast.success("Person added successfully");

@@ -65,6 +65,9 @@ export const PeopleToSplitForm = ({ billGroup }: PeopleToSplitFormProps) => {
         {billGroup.bill_group_members.map((member) => (
           <MemberItem key={member.id} member={member} />
         ))}
+        {billGroup.bill_group_members.length === 0 && (
+          <p className="text-neutral-400 col-span-3">No members added yet</p>
+        )}
       </div>
     </div>
   );
