@@ -146,6 +146,7 @@ export const AddBillForm = ({ billGroup }: AddBillFormProps) => {
             disabled={form.payedForEveryone}
             searchable={false}
             showSelectAll={false}
+            modalPopover={true}
           />
         </div>
         <div className="flex flex-col gap-2">
