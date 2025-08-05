@@ -144,6 +144,8 @@ export const AddBillForm = ({ billGroup }: AddBillFormProps) => {
             animation={0}
             maxCount={billGroup.bill_group_members.length}
             disabled={form.payedForEveryone}
+            searchable={false}
+            showSelectAll={false}
           />
         </div>
         <div className="flex flex-col gap-2">

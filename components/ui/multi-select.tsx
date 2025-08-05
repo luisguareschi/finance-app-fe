@@ -117,6 +117,18 @@ interface MultiSelectProps
    * Optional, can be used to add custom styles.
    */
   className?: string;
+
+  /**
+   * If true, the multi-select component will be searchable.
+   * Optional, defaults to true.
+   */
+  searchable?: boolean;
+
+  /**
+   * If true, the multi-select component will show the select all option.
+   * Optional, defaults to true.
+   */
+  showSelectAll?: boolean;
 }
 
 export const MultiSelect = React.forwardRef<
@@ -135,6 +147,8 @@ export const MultiSelect = React.forwardRef<
       modalPopover = false,
       asChild = false,
       className,
+      searchable = true,
+      showSelectAll = true,
       ...props
     },
     ref,
@@ -286,30 +300,34 @@ export const MultiSelect = React.forwardRef<
           onEscapeKeyDown={() => setIsPopoverOpen(false)}
         >
           <Command>
-            <CommandInput
-              placeholder="Search..."
-              onKeyDown={handleInputKeyDown}
-            />
+            {searchable && (
+              <CommandInput
+                placeholder="Search..."
+                onKeyDown={handleInputKeyDown}
+              />
+            )}
             <CommandList>
               <CommandEmpty>No results found.</CommandEmpty>
               <CommandGroup>
-                <CommandItem
-                  key="all"
-                  onSelect={toggleAll}
-                  className="cursor-pointer"
-                >
-                  <div
-                    className={cn(
-                      "mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary",
-                      selectedValues.length === options.length
-                        ? "bg-primary text-primary-foreground"
-                        : "opacity-50 [&_svg]:invisible",
-                    )}
+                {showSelectAll && (
+                  <CommandItem
+                    key="all"
+                    onSelect={toggleAll}
+                    className="cursor-pointer"
                   >
-                    <CheckIcon className="h-4 w-4" />
-                  </div>
-                  <span>(Select All)</span>
-                </CommandItem>
+                    <div
+                      className={cn(
+                        "mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary",
+                        selectedValues.length === options.length
+                          ? "bg-primary text-primary-foreground"
+                          : "opacity-50 [&_svg]:invisible",
+                      )}
+                    >
+                      <CheckIcon className="h-4 w-4" />
+                    </div>
+                    <span>(Select All)</span>
+                  </CommandItem>
+                )}
                 {options.map((option) => {
                   const isSelected = selectedValues.includes(option.value);
                   return (
