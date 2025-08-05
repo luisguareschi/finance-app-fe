@@ -39,7 +39,7 @@ const BillItem = ({ billGroup, bill }: BillItemProps) => {
   };
 
   return (
-    <Card className="flex justify-start items-center gap-4 w-full md:max-w-xl p-2">
+    <Card className="flex justify-start items-center gap-4 w-full p-2">
       <div
         className={cn(
           "rounded-full w-10 h-10 flex items-center justify-center",
@@ -84,11 +84,11 @@ interface BillsFormProps {
 
 export const BillsForm = ({ billGroup }: BillsFormProps) => {
   return (
-    <div className="flex flex-col gap-6 md:gap-4">
+    <div className="flex flex-col gap-6 md:gap-4 w-full md:max-w-xl">
       <div className="flex justify-between md:justify-start items-center gap-4">
         <h2 className="text-xl font-base text-white">Bills</h2>
-        <AddBillForm billGroup={billGroup} />
       </div>
+      <AddBillForm billGroup={billGroup} />
       <div className="flex gap-2 items-start flex-col">
         {billGroup.bills.map((bill) => (
           <BillItem key={bill.id} billGroup={billGroup} bill={bill} />

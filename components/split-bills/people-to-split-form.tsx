@@ -32,7 +32,9 @@ const MemberItem = ({ member }: MemberItemProps) => {
 
   return (
     <Card className="flex justify-between items-center gap-2 w-full p-2">
-      <p className="outline-none w-20">{member.name}</p>
+      <p className="outline-none w-28 text-ellipsis overflow-hidden whitespace-nowrap">
+        {member.name}
+      </p>
       <div className="flex">
         <EditPersonForm person={member} />
         <Button
@@ -54,19 +56,19 @@ interface PeopleToSplitFormProps {
 
 export const PeopleToSplitForm = ({ billGroup }: PeopleToSplitFormProps) => {
   return (
-    <div className="flex flex-col gap-6 md:gap-4">
+    <div className="flex flex-col gap-6 md:gap-4 w-full lg:max-w-[350px] md:max-w-xl">
       <div className="flex justify-between md:justify-start items-center gap-4">
         <h2 className="text-xl font-base text-white">
           People to split with: {billGroup.number_of_members}
         </h2>
-        <AddPersonForm billGroup={billGroup} />
       </div>
-      <div className="flex gap-2 items-center flex-wrap md:grid md:grid-cols-3 md:max-w-xl">
+      <AddPersonForm billGroup={billGroup} />
+      <div className="grid grid-cols-2 gap-2 items-center">
         {billGroup.bill_group_members.map((member) => (
           <MemberItem key={member.id} member={member} />
         ))}
         {billGroup.bill_group_members.length === 0 && (
-          <p className="text-neutral-400 col-span-3">No members added yet</p>
+          <p className="text-neutral-400 col-span-2">No members added yet</p>
         )}
       </div>
     </div>

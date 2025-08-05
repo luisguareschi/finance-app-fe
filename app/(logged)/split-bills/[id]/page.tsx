@@ -31,7 +31,7 @@ const SplitBillsDetailPage = () => {
   }
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-8 lg:flex-row">
       <PeopleToSplitForm billGroup={billGroup} />
       <BillsForm billGroup={billGroup} />
     </div>
