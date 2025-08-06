@@ -10,6 +10,7 @@ import { useSplitBillsBillsDestroy } from "@/api/split-bills/split-bills";
 import { useQueryClient } from "@tanstack/react-query";
 import { QUERYKEYS } from "@/queries/queryKeys";
 import toast from "react-hot-toast";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 
 interface BillItemProps {
   billGroup: BillGroupDetail;
@@ -51,18 +52,28 @@ const BillItem = ({ billGroup, bill }: BillItemProps) => {
         {getInitials(bill?.payed_by.name || "")}
       </div>
       <div>
+        <p className="line-clamp-1">{bill?.description}</p>
         <p className="text-neutral-400">Payed by: {bill.payed_by.name}</p>
-        <p className="line-clamp-1">
-          {bill?.description}&nbsp;•&nbsp;
-          <span className="text-neutral-400">
-            {bill?.payed_for.length > 0
-              ? bill?.payed_for.map((member) => member.name).join(", ")
-              : "Everyone"}
-          </span>
-        </p>
+        <Popover>
+          <PopoverTrigger>
+            <p className="text-neutral-400 line-clamp-1 cursor-pointer hover:underline active:underline active:text-white transition-all">
+              For:{" "}
+              {bill?.payed_for.length > 0
+                ? bill?.payed_for.map((member) => member.name).join(", ")
+                : "Everyone"}
+            </p>
+          </PopoverTrigger>
+          <PopoverContent>
+            <p className="text-neutral-400">
+              <span className="text-white">Payed for: &nbsp;</span>
+              {bill?.payed_for.map((member) => member.name).join(", ")}
+              {bill?.payed_for_everyone && "Everyone"}
+            </p>
+          </PopoverContent>
+        </Popover>
       </div>
-      <div className="flex ml-auto items-center gap-2">
-        <p className="text-white">
+      <div className="flex ml-auto items-center gap-2 min-w-fit">
+        <p className="text-white min-w-fit">
           {bill?.amount} {billGroup?.currency}
         </p>
         <Button
