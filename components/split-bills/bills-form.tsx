@@ -42,7 +42,7 @@ const BillItem = ({ billGroup, bill }: BillItemProps) => {
     <Card className="flex justify-start items-center gap-4 w-full p-2">
       <div
         className={cn(
-          "rounded-full w-10 h-10 flex items-center justify-center",
+          "rounded-full w-10 h-10 min-w-10 min-h-10 flex items-center justify-center",
           bgColor,
           borderColor,
           textColor,
