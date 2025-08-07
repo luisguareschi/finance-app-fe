@@ -56,7 +56,7 @@ interface PeopleToSplitFormProps {
 
 export const PeopleToSplitForm = ({ billGroup }: PeopleToSplitFormProps) => {
   return (
-    <div className="flex flex-col gap-6 md:gap-4 w-full lg:max-w-[350px] md:max-w-xl">
+    <div className="flex flex-col gap-6 md:gap-4 w-full lg:max-w-[350px]">
       <div className="flex justify-between md:justify-start items-center gap-4">
         <h2 className="text-xl font-base text-white">
           People to split with: {billGroup.number_of_members}

@@ -6,6 +6,7 @@ import useStore from "@/lib/useStore";
 import { QUERYKEYS } from "@/queries/queryKeys";
 import { useParams } from "next/navigation";
 import { useEffect } from "react";
+import { CalculateBill } from "@/components/split-bills/calculate-bill";
 
 const SplitBillsDetailPage = () => {
   const { id } = useParams();
@@ -31,9 +32,16 @@ const SplitBillsDetailPage = () => {
   }
 
   return (
-    <div className="flex flex-col gap-8 lg:flex-row">
-      <PeopleToSplitForm billGroup={billGroup} />
-      <BillsForm billGroup={billGroup} />
+    <div className="flex flex-col gap-8 pb-20">
+      <p className="text-neutral-400">
+        Manage people and bills in this group. Add or remove members, track
+        expenses, and keep balances fair.
+      </p>
+      <CalculateBill billGroup={billGroup} />
+      <div className="flex flex-col gap-8 lg:flex-row">
+        <PeopleToSplitForm billGroup={billGroup} />
+        <BillsForm billGroup={billGroup} />
+      </div>
     </div>
   );
 };

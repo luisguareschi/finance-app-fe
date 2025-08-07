@@ -95,7 +95,7 @@ interface BillsFormProps {
 
 export const BillsForm = ({ billGroup }: BillsFormProps) => {
   return (
-    <div className="flex flex-col gap-6 md:gap-4 w-full md:max-w-xl">
+    <div className="flex flex-col gap-6 md:gap-4 w-full">
       <div className="flex justify-between md:justify-start items-center gap-4">
         <h2 className="text-xl font-base text-white">Bills</h2>
       </div>

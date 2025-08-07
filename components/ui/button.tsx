@@ -16,10 +16,18 @@ const buttonVariants = cva(
         outline:
           "border border-white text-white hover:border-neutral-200 active:bg-neutral-700",
         secondary:
-          "bg-blue-500 text-white hover:bg-blue-500/90 active:bg-blue-500/90",
+          "bg-blue-600 text-white hover:bg-blue-500/90 active:bg-blue-500/90",
         ghost:
           "bg-transparent hover:bg-neutral-600/90 text-white active:bg-neutral-500/90",
         link: "text-white underline-offset-4 hover:underline dark:text-slate-50",
+        destructiveGhost:
+          "bg-red-950 text-red-100 hover:bg-red-950/90 active:bg-red-950/90",
+        destructiveText:
+          "bg-transparent text-red-400 hover:bg-red-950/90 active:bg-red-950/90",
+        secondaryText:
+          "bg-transparent text-blue-400 hover:bg-blue-950/90 active:bg-blue-950/90",
+        secondaryGhost:
+          "bg-blue-950 text-blue-100 hover:bg-blue-950/90 active:bg-blue-950/90 border border-blue-600",
       },
       size: {
         default: "h-10 px-4 py-2",

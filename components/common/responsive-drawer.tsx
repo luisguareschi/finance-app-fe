@@ -24,6 +24,7 @@ interface ResponsiveDrawerProps {
   title: string;
   description?: string;
   trigger?: ReactNode;
+  forceDialog?: boolean;
 }
 
 export const ResponsiveDrawer = ({
@@ -33,10 +34,11 @@ export const ResponsiveDrawer = ({
   title,
   description,
   trigger,
+  forceDialog,
 }: ResponsiveDrawerProps) => {
   const { md } = useBreakPoints();
 
-  if (md) {
+  if (md || forceDialog) {
     return (
       <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
         <DialogTrigger asChild>{trigger}</DialogTrigger>
