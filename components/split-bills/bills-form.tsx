@@ -56,7 +56,7 @@ const BillItem = ({ billGroup, bill }: BillItemProps) => {
         <p className="text-neutral-400">Payed by: {bill.payed_by.name}</p>
         <Popover>
           <PopoverTrigger>
-            <p className="text-neutral-400 line-clamp-1 cursor-pointer hover:underline active:underline active:text-white transition-all">
+            <p className="text-neutral-400 line-clamp-1 cursor-pointer hover:underline active:underline active:text-white transition-all text-left">
               For:{" "}
               {bill?.payed_for.length > 0
                 ? bill?.payed_for.map((member) => member.name).join(", ")
