@@ -11,8 +11,8 @@ const font = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "BaseApp",
-  description: "A next js template for building apps",
+  title: "Finance Manager",
+  description: "A web app for managing your finances",
 };
 
 export const viewport: Viewport = {
