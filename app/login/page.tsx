@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import useLogin from "@/queries/auth/useLogin";
 import {
@@ -156,4 +156,12 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+const LoginPageWrapper = () => {
+  return (
+    <Suspense>
+      <LoginPage />
+    </Suspense>
+  );
+};
+
+export default LoginPageWrapper;

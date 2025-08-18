@@ -1,3 +1,4 @@
+"use client";
 import { useEffect, useState } from "react";
 
 const breakPoints = {
@@ -17,7 +18,9 @@ const breakPoints = {
  */
 
 export const useBreakPoints = () => {
-  const [width, setWidth] = useState<number>(window?.innerWidth || 0);
+  const [width, setWidth] = useState<number>(
+    typeof window !== "undefined" ? window.innerWidth : 0,
+  );
 
   useEffect(() => {
     const handleResize = () => setWidth(window?.innerWidth || 0);
