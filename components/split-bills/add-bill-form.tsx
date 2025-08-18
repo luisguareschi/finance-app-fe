@@ -145,7 +145,7 @@ export const AddBillForm = ({ billGroup }: AddBillFormProps) => {
             maxCount={billGroup.bill_group_members.length}
             disabled={form.payedForEveryone}
             searchable={false}
-            showSelectAll={false}
+            showSelectAll
             modalPopover={true}
           />
         </div>
