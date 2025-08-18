@@ -1,4 +1,4 @@
-import { HomeIcon, WalletIcon, Split } from "lucide-react";
+import { WalletIcon, Split, LayoutDashboard } from "lucide-react";
 
 interface SidebarItem {
   label: string;
@@ -10,9 +10,9 @@ const ICON_SIZE = "min-w-5 min-h-5";
 
 export const sidebarItems: SidebarItem[] = [
   {
-    label: "Home",
-    href: "/home",
-    icon: <HomeIcon className={ICON_SIZE} />,
+    label: "Dashboard",
+    href: "/dashboard",
+    icon: <LayoutDashboard className={ICON_SIZE} />,
   },
   {
     label: "Assets",

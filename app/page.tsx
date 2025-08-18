@@ -8,7 +8,7 @@ export default function Main() {
   const { user, isLoading } = useCurrentUser();
 
   if (user) {
-    router.replace("/home");
+    router.replace("/dashboard");
   }
 
   if (!isLoading && !user) {
