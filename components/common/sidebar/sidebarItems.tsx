@@ -1,4 +1,4 @@
-import { WalletIcon, Split, LayoutDashboard } from "lucide-react";
+import { Split, LayoutDashboard, HandCoins } from "lucide-react";
 
 interface SidebarItem {
   label: string;
@@ -15,9 +15,9 @@ export const sidebarItems: SidebarItem[] = [
     icon: <LayoutDashboard className={ICON_SIZE} />,
   },
   {
-    label: "Assets",
-    href: "/assets",
-    icon: <WalletIcon className={ICON_SIZE} />,
+    label: "Debts",
+    href: "/debts",
+    icon: <HandCoins className={ICON_SIZE} />,
   },
   {
     label: "Split Bills",
