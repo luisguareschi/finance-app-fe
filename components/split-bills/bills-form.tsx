@@ -11,6 +11,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { QUERYKEYS } from "@/queries/queryKeys";
 import toast from "react-hot-toast";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { useAlert } from "../ui/alert";
 
 interface BillItemProps {
   billGroup: BillGroupDetail;
@@ -18,6 +19,7 @@ interface BillItemProps {
 }
 
 const BillItem = ({ billGroup, bill }: BillItemProps) => {
+  const { showAlert } = useAlert();
   const queryClient = useQueryClient();
   const { mutate: deleteBill } = useSplitBillsBillsDestroy({
     mutation: {
@@ -34,8 +36,17 @@ const BillItem = ({ billGroup, bill }: BillItemProps) => {
   );
 
   const handleDelete = () => {
-    deleteBill({
-      id: String(bill.id),
+    showAlert({
+      title: "Delete Bill",
+      subtitle: "Are you sure you want to delete this bill?",
+      variant: "destructive",
+      onCancel: () => {},
+      onSubmit: () => {
+        deleteBill({
+          id: String(bill.id),
+        });
+      },
+      submitText: "Delete",
     });
   };
 

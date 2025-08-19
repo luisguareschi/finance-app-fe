@@ -4,6 +4,7 @@ import "./globals.css";
 import Providers from "@/app/providers";
 import { Toaster } from "react-hot-toast";
 import { cn } from "@/lib/utils";
+import { AlertProvider } from "@/components/ui/alert";
 
 const font = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -28,7 +29,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={cn(font.className, "bg-black")}>
         <Providers>
-          {children}
+          <AlertProvider>{children}</AlertProvider>
           <Toaster />
         </Providers>
       </body>

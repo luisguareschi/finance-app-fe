@@ -8,12 +8,14 @@ import toast from "react-hot-toast";
 import { useQueryClient } from "@tanstack/react-query";
 import { QUERYKEYS } from "@/queries/queryKeys";
 import { EditPersonForm } from "./edit-person-form";
+import { useAlert } from "../ui/alert";
 
 interface MemberItemProps {
   member: BillGroupDetail["bill_group_members"][number];
 }
 
 const MemberItem = ({ member }: MemberItemProps) => {
+  const { showAlert } = useAlert();
   const queryClient = useQueryClient();
   const { mutate: deleteMember } = useSplitBillsBillGroupMembersDestroy({
     mutation: {
@@ -27,7 +29,16 @@ const MemberItem = ({ member }: MemberItemProps) => {
   });
 
   const handleDeleteMember = () => {
-    deleteMember({ id: String(member.id) });
+    showAlert({
+      title: "Delete Person",
+      subtitle: "Are you sure you want to delete this person?",
+      variant: "destructive",
+      onCancel: () => {},
+      onSubmit: () => {
+        deleteMember({ id: String(member.id) });
+      },
+      submitText: "Delete",
+    });
   };
 
   return (

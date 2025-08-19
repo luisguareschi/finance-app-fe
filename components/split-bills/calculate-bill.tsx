@@ -12,12 +12,14 @@ import {
 } from "@/lib/calculateSplitBills";
 import { useState } from "react";
 import { ResponsiveDrawer } from "../common/responsive-drawer";
+import { useAlert } from "../ui/alert";
 
 interface CalculateBillProps {
   billGroup: BillGroupDetail;
 }
 
 export const CalculateBill = ({ billGroup }: CalculateBillProps) => {
+  const { showAlert } = useAlert();
   const router = useRouter();
   const queryClient = useQueryClient();
   const [movements, setMovements] = useState<CalculateSplitBillsResult>([]);
@@ -34,7 +36,17 @@ export const CalculateBill = ({ billGroup }: CalculateBillProps) => {
   });
 
   const handleDelete = () => {
-    deleteBillGroup({ id: String(billGroup.id) });
+    showAlert({
+      title: "Delete Bill Group",
+      subtitle:
+        "Are you sure you want to delete this bill group? This action cannot be undone.",
+      variant: "destructive",
+      onCancel: () => {},
+      onSubmit: () => {
+        deleteBillGroup({ id: String(billGroup.id) });
+      },
+      submitText: "Delete",
+    });
   };
 
   const handleCalculate = () => {
