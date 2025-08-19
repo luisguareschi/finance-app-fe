@@ -13,10 +13,12 @@ const font = Poppins({
 export const metadata: Metadata = {
   title: "Finance Manager",
   description: "A web app for managing your finances",
+  manifest: "/manifest.json",
 };
 
 export const viewport: Viewport = {
   themeColor: "#000000",
+  userScalable: false,
 };
 
 export default function RootLayout({

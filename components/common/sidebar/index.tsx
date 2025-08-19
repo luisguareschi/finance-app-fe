@@ -2,13 +2,13 @@ import Link from "next/link";
 import { sidebarItems } from "./sidebarItems";
 import { Button } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
-import { Atom } from "lucide-react";
 import { cn } from "@/lib/utils";
 import useStore from "@/lib/useStore";
 import { AnimatePresence, motion } from "framer-motion";
 import { useBreakPoints } from "@/lib/useBreakPoints";
 import { useEffect } from "react";
 import { AccountButton } from "../account-button";
+import { AppIcon } from "@/components/icons/app-icon";
 
 const ANIMATION_DURATION = 0.2;
 
@@ -46,7 +46,7 @@ export const Sidebar = () => {
         )}
       >
         <h1 className="text-white font-semibold text-xl text-center flex items-center gap-2 mb-8 h-[40px]">
-          <Atom className="min-w-5 min-h-5" />
+          <AppIcon className="min-w-5 min-h-5 size-8" />
           Finance Manager
         </h1>
         <div className="flex flex-col gap-4">

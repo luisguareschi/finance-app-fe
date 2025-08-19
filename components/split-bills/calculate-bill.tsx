@@ -43,20 +43,13 @@ export const CalculateBill = ({ billGroup }: CalculateBillProps) => {
   };
 
   const handleCopy = () => {
-    const billsString = billGroup.bills
-      .map((bill) => {
-        return `Bill: ${bill.description} | Amount: ${bill.amount} ${billGroup.currency} | Payed By: ${bill.payed_by.name} | Payed For: ${bill.payed_for.map((person) => person.name).join(", ")}${bill.payed_for_everyone ? "Everyone" : ""}`;
-      })
-      .join("\n");
     const movementsString = movements
       .map(
         (movement) =>
           `${movement.from.name} ➡ ${movement.to.name} | Amount: ${movement.amount.toFixed(2)} ${billGroup.currency}`,
       )
       .join("\n");
-    navigator.clipboard.writeText(
-      `Transactions:\n${billsString}\n\n\Payments Needed:\n${movementsString}`,
-    );
+    navigator.clipboard.writeText(`Payments Needed:\n${movementsString}`);
     toast.success("Copied to clipboard");
   };
 

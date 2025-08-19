@@ -21,7 +21,7 @@ const LoginPage = () => {
   const isSignUp = useSearchParams().get("signup") === "true";
   const { mutate: login, isPending: loadingLogin } = useLogin({
     onSuccess: () => {
-      router.replace("/home");
+      router.replace("/dashboard");
     },
   });
   const { mutate: signUp, isPending: loadingSignUp } = useSignUp({
