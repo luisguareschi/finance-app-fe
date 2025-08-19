@@ -17,6 +17,7 @@ import { useSplitBillsBillsCreate } from "@/api/split-bills/split-bills";
 import toast from "react-hot-toast";
 import { useQueryClient } from "@tanstack/react-query";
 import { QUERYKEYS } from "@/queries/queryKeys";
+import Spinner from "../common/spinner";
 
 interface Form {
   payedBy: string;
@@ -42,17 +43,18 @@ export const AddBillForm = ({ billGroup }: AddBillFormProps) => {
   const queryClient = useQueryClient();
   const [isOpen, setIsOpen] = useState(false);
   const [form, setForm] = useState<Form>(initialForm);
-  const { mutate: createBill } = useSplitBillsBillsCreate({
-    mutation: {
-      onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: [QUERYKEYS.billGroupDetail],
-        });
-        setIsOpen(false);
-        toast.success("Bill created successfully");
+  const { mutate: createBill, isPending: isCreatingBill } =
+    useSplitBillsBillsCreate({
+      mutation: {
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: [QUERYKEYS.billGroupDetail],
+          });
+          setIsOpen(false);
+          toast.success("Bill created successfully");
+        },
       },
-    },
-  });
+    });
 
   const membersList = billGroup.bill_group_members.map((member) => ({
     label: member.name,
@@ -186,9 +188,9 @@ export const AddBillForm = ({ billGroup }: AddBillFormProps) => {
           <Button
             className="md:w-fit w-full"
             onClick={handleCreate}
-            disabled={!isFormValid}
+            disabled={!isFormValid || isCreatingBill}
           >
-            Add bill
+            {isCreatingBill ? <Spinner /> : "Add bill"}
           </Button>
         </div>
       </div>

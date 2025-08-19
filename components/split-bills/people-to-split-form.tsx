@@ -17,7 +17,7 @@ interface MemberItemProps {
 const MemberItem = ({ member }: MemberItemProps) => {
   const { showAlert } = useAlert();
   const queryClient = useQueryClient();
-  const { mutate: deleteMember } = useSplitBillsBillGroupMembersDestroy({
+  const { mutateAsync: deleteMember } = useSplitBillsBillGroupMembersDestroy({
     mutation: {
       onSuccess: () => {
         queryClient.invalidateQueries({
@@ -34,8 +34,8 @@ const MemberItem = ({ member }: MemberItemProps) => {
       subtitle: "Are you sure you want to delete this person?",
       variant: "destructive",
       onCancel: () => {},
-      onSubmit: () => {
-        deleteMember({ id: String(member.id) });
+      onSubmit: async () => {
+        await deleteMember({ id: String(member.id) });
       },
       submitText: "Delete",
     });

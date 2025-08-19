@@ -8,6 +8,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useSplitBillsBillGroupMembersPartialUpdate } from "@/api/split-bills/split-bills";
 import toast from "react-hot-toast";
 import { QUERYKEYS } from "@/queries/queryKeys";
+import Spinner from "../common/spinner";
 
 interface EditPersonFormProps {
   person: BillGroupDetail["bill_group_members"][number];
@@ -17,17 +18,18 @@ export const EditPersonForm = ({ person }: EditPersonFormProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [name, setName] = useState<string>(person.name);
   const queryClient = useQueryClient();
-  const { mutate: editPerson } = useSplitBillsBillGroupMembersPartialUpdate({
-    mutation: {
-      onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: [QUERYKEYS.billGroupDetail],
-        });
-        toast.success("Person edited successfully");
-        setIsOpen(false);
+  const { mutate: editPerson, isPending: isEditingPerson } =
+    useSplitBillsBillGroupMembersPartialUpdate({
+      mutation: {
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: [QUERYKEYS.billGroupDetail],
+          });
+          toast.success("Person edited successfully");
+          setIsOpen(false);
+        },
       },
-    },
-  });
+    });
 
   const handleEditPerson = () => {
     editPerson({
@@ -52,7 +54,13 @@ export const EditPersonForm = ({ person }: EditPersonFormProps) => {
         </Button>
       }
     >
-      <div className="flex flex-col gap-4">
+      <form
+        className="flex flex-col gap-4"
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleEditPerson();
+        }}
+      >
         <Input
           placeholder="Name"
           value={name}
@@ -62,12 +70,12 @@ export const EditPersonForm = ({ person }: EditPersonFormProps) => {
           variant="default"
           size="sm"
           className="w-full"
-          disabled={!name || name === person.name}
-          onClick={handleEditPerson}
+          disabled={!name || name === person.name || isEditingPerson}
+          type="submit"
         >
-          Save
+          {isEditingPerson ? <Spinner /> : "Save"}
         </Button>
-      </div>
+      </form>
     </ResponsiveDrawer>
   );
 };

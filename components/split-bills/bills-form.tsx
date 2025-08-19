@@ -21,7 +21,7 @@ interface BillItemProps {
 const BillItem = ({ billGroup, bill }: BillItemProps) => {
   const { showAlert } = useAlert();
   const queryClient = useQueryClient();
-  const { mutate: deleteBill } = useSplitBillsBillsDestroy({
+  const { mutateAsync: deleteBill } = useSplitBillsBillsDestroy({
     mutation: {
       onSuccess: () => {
         queryClient.invalidateQueries({
@@ -41,8 +41,8 @@ const BillItem = ({ billGroup, bill }: BillItemProps) => {
       subtitle: "Are you sure you want to delete this bill?",
       variant: "destructive",
       onCancel: () => {},
-      onSubmit: () => {
-        deleteBill({
+      onSubmit: async () => {
+        await deleteBill({
           id: String(bill.id),
         });
       },

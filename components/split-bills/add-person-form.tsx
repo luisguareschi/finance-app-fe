@@ -7,6 +7,7 @@ import { useSplitBillsBillGroupMembersCreate } from "@/api/split-bills/split-bil
 import toast from "react-hot-toast";
 import { useQueryClient } from "@tanstack/react-query";
 import { QUERYKEYS } from "@/queries/queryKeys";
+import Spinner from "../common/spinner";
 
 interface AddPersonFormProps {
   billGroup: BillGroupDetail;
@@ -16,20 +17,21 @@ export const AddPersonForm = ({ billGroup }: AddPersonFormProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [name, setName] = useState<string>("");
   const queryClient = useQueryClient();
-  const { mutate: addPerson } = useSplitBillsBillGroupMembersCreate({
-    mutation: {
-      onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: [QUERYKEYS.billGroupsList],
-        });
-        queryClient.invalidateQueries({
-          queryKey: [QUERYKEYS.billGroupDetail],
-        });
-        toast.success("Person added successfully");
-        setIsOpen(false);
+  const { mutate: addPerson, isPending: isAddingPerson } =
+    useSplitBillsBillGroupMembersCreate({
+      mutation: {
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: [QUERYKEYS.billGroupsList],
+          });
+          queryClient.invalidateQueries({
+            queryKey: [QUERYKEYS.billGroupDetail],
+          });
+          toast.success("Person added successfully");
+          setIsOpen(false);
+        },
       },
-    },
-  });
+    });
 
   const handleAddPerson = () => {
     addPerson({ data: { name, bill_group: billGroup.id } });
@@ -52,7 +54,13 @@ export const AddPersonForm = ({ billGroup }: AddPersonFormProps) => {
         </Button>
       }
     >
-      <div className="flex flex-col gap-4">
+      <form
+        className="flex flex-col gap-4"
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleAddPerson();
+        }}
+      >
         <Input
           placeholder="Name"
           value={name}
@@ -62,12 +70,12 @@ export const AddPersonForm = ({ billGroup }: AddPersonFormProps) => {
           variant="default"
           size="sm"
           className="w-full"
-          disabled={!name}
-          onClick={handleAddPerson}
+          disabled={!name || isAddingPerson}
+          type="submit"
         >
-          Add
+          {isAddingPerson ? <Spinner /> : "Add"}
         </Button>
-      </div>
+      </form>
     </ResponsiveDrawer>
   );
 };

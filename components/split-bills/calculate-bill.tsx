@@ -23,7 +23,7 @@ export const CalculateBill = ({ billGroup }: CalculateBillProps) => {
   const router = useRouter();
   const queryClient = useQueryClient();
   const [movements, setMovements] = useState<CalculateSplitBillsResult>([]);
-  const { mutate: deleteBillGroup } = useSplitBillsBillGroupsDestroy({
+  const { mutateAsync: deleteBillGroup } = useSplitBillsBillGroupsDestroy({
     mutation: {
       onSuccess: () => {
         router.push("/split-bills");
@@ -42,8 +42,8 @@ export const CalculateBill = ({ billGroup }: CalculateBillProps) => {
         "Are you sure you want to delete this bill group? This action cannot be undone.",
       variant: "destructive",
       onCancel: () => {},
-      onSubmit: () => {
-        deleteBillGroup({ id: String(billGroup.id) });
+      onSubmit: async () => {
+        await deleteBillGroup({ id: String(billGroup.id) });
       },
       submitText: "Delete",
     });
