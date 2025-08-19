@@ -17,6 +17,7 @@ import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
 import { QUERYKEYS } from "@/queries/queryKeys";
+import Spinner from "../common/spinner";
 
 interface CreateGroupForm {
   name: string;
@@ -33,18 +34,19 @@ export const CreateGroupForm = () => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [form, setForm] = useState<CreateGroupForm>(initialForm);
-  const { mutate: createGroup } = useSplitBillsBillGroupsCreate({
-    mutation: {
-      onSuccess: (data) => {
-        setIsOpen(false);
-        queryClient.invalidateQueries({
-          queryKey: [QUERYKEYS.billGroupsList],
-        });
-        toast.success("Group created");
-        router.push(`/split-bills/${data.id}`);
+  const { mutate: createGroup, isPending: isCreatingGroup } =
+    useSplitBillsBillGroupsCreate({
+      mutation: {
+        onSuccess: (data) => {
+          setIsOpen(false);
+          queryClient.invalidateQueries({
+            queryKey: [QUERYKEYS.billGroupsList],
+          });
+          toast.success("Group created");
+          router.push(`/split-bills/${data.id}`);
+        },
       },
-    },
-  });
+    });
 
   useEffect(() => {
     if (!isOpen) {
@@ -112,15 +114,16 @@ export const CreateGroupForm = () => {
             variant="ghost"
             className="md:w-fit w-full"
             onClick={() => setIsOpen(false)}
+            disabled={isCreatingGroup}
           >
             Cancel
           </Button>
           <Button
             className="md:w-fit w-full"
             onClick={handleCreate}
-            disabled={!isFormValid}
+            disabled={!isFormValid || isCreatingGroup}
           >
-            Create Group
+            {isCreatingGroup ? <Spinner /> : "Create Group"}
           </Button>
         </div>
       </div>
